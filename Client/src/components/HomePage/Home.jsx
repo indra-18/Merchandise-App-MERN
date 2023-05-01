@@ -8,7 +8,7 @@ import CollectionShow from './CollectionShow'
 const Home = () => {
   return (
     <div className='w-full h-full'>
-      <Navbar />
+      {/* <Navbar /> */}
       <Hero />
       <Intro />
       <CollectionShow />
