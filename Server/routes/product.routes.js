@@ -23,11 +23,10 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage: storage });
 
-router.get('/');
+router.get('/', productController.getAllProducts);
 router.post('/',upload.single('image'), productController.add);
-router.get('/:id/');
-router.put('/:id/');
-// router.patch('/:id/')
-router.delete('/id:/')
+router.get('/:id', productController.getProductWithId);
+router.put('/:id',upload.single('image'), productController.updateProduct);
+router.delete('/:id', productController.deleteProduct)
 
 module.exports = router
