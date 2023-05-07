@@ -1,6 +1,17 @@
-import React from 'react'
+import { React, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchProducts } from '../../redux/features/productSlice'
+
 
 const AllProducts = () => {
+  const products = useSelector(state => state.product);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts())
+  }, [])
+
+  console.log(products)
   return (
 <div className="bg-black">
   <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
