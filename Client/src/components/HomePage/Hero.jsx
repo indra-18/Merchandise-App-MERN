@@ -11,11 +11,11 @@ const Hero = () => {
       <div className='w-[650px] h-auto ml-10'>
         <img src={heroImage2} className='w-full h-full rounded-2xl' alt='group of friends'/>
       </div>
-      <div className='flex items-center flex-wrap'>
-        <h2 className='text-white font-extrabold text-5xl font-mono flex items-center ml-20 italic'>fly with fashion</h2>
-        <a href='/shop'>
-          <button className=' ml-20 font-bold py-3 my-0 mx-auto hover:text-orange-300'>Shop Now...</button>
-        </a>
+      <div className='flex justify-center items-center flex-wrap'>
+        <h2 className=' font-extrabold text-5xl font-mono flex items-center ml-20 italic'>fly with fashion</h2>
+          <a href='/shop'>
+            <button className='mt-6 font-extrabold text-red-600 text-center bg-white rounded-md'>SHOP NOW</button>
+          </a>
       </div>
     </section>
     </div>
