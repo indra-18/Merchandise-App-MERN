@@ -4,6 +4,7 @@ import Hero from './Hero'
 import Intro from './Intro'
 import Footer from './Footer'
 import CollectionShow from './CollectionShow'
+import Details from '../Details'
 
 const Home = () => {
   return (
