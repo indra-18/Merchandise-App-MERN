@@ -4,6 +4,7 @@ import Home from "../components/HomePage/Home";
 import Shop from "../components/ShopPage/Shop";
 import Details from "../components/Details";
 import LoginPage from "../components/LoginPage/LoginPage";
+import Cart from "../components/Cart";
 
 
 const AppRouter = () => {
@@ -14,6 +15,7 @@ const AppRouter = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/details/:id" element={<Details />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </BrowserRouter>
   );
