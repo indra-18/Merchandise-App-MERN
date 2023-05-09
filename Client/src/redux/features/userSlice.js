@@ -1,17 +1,17 @@
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchProductWithId } from '../../http-services/api';
 
 const initialState = {
     loading: true,
+    user: {},
     users: [],
     cart: [],
     error: ''
 }
 
-export const newUser = createAsyncThunk('user/newUser', () => {
+export const newUser = createAsyncThunk('user/newUser', (formData) => {
     return axios
-            .post('http://localhost:8080/users')
+            .post('http://localhost:8080/users', formData)
             .then(res => res.data.result)
 })
 
@@ -54,12 +54,11 @@ const userSlice = createSlice({
         })
         builder.addCase(newUser.fulfilled, (state, action) => {
             state.loading = false,
-            state.users = action.payload,
+            state.user = action.payload
             state.error = ''
         })
         builder.addCase(newUser.rejected, (state, action) => {
             state.loading = false,
-            state.users = [],
             state.error = action.error.message
         })
         builder.addCase(updateUser.pending, state => {
@@ -67,12 +66,11 @@ const userSlice = createSlice({
         })
         builder.addCase(updateUser.fulfilled, (state, action) => {
             state.loading = false,
-            state.users = action.payload,
+            state.user = action.payload,
             state.error = ''
         })
         builder.addCase(updateUser.rejected, (state, action) => {
             state.loading = false,
-            state.users = [],
             state.error = action.error.message
         })
 
