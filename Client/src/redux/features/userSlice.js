@@ -9,6 +9,18 @@ const initialState = {
     error: ''
 }
 
+export const newUser = createAsyncThunk('user/newUser', () => {
+    return axios
+            .post('http://localhost:8080/users')
+            .then(res => res.data.result)
+})
+
+export const updateUser = createAsyncThunk('user/updateUser', () => {
+    return axios
+            .put('http://localhost:8080/users')
+            .then(res => res.data.result)
+})
+
 export const fetchUsers = createAsyncThunk('user/fetchUsers', () => {
     return axios
             .get('http://localhost:8080/users')
@@ -37,6 +49,33 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     extraReducers: builder => {
+        builder.addCase(newUser.pending, state => {
+            state.loading = true
+        })
+        builder.addCase(newUser.fulfilled, (state, action) => {
+            state.loading = false,
+            state.users = action.payload,
+            state.error = ''
+        })
+        builder.addCase(newUser.rejected, (state, action) => {
+            state.loading = false,
+            state.users = [],
+            state.error = action.error.message
+        })
+        builder.addCase(updateUser.pending, state => {
+            state.loading = true
+        })
+        builder.addCase(updateUser.fulfilled, (state, action) => {
+            state.loading = false,
+            state.users = action.payload,
+            state.error = ''
+        })
+        builder.addCase(updateUser.rejected, (state, action) => {
+            state.loading = false,
+            state.users = [],
+            state.error = action.error.message
+        })
+
         builder.addCase(fetchUsers.pending, state => {
             state.loading = true
         })
