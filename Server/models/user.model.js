@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs')
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -23,6 +24,16 @@ const userSchema = new mongoose.Schema({
   }]
 });
 
-const UserModel = mongoose.model('User', userSchema);
+UserSchema.statics.comparePassword = function (password, hashedPassword, callback) {
+  bcrypt.compare(password, hashedPassword, function(err, isMatch) {
+    if (err) {
+      return callback(err);
+    }
+    callback(null, isMatch)
+  })
+}
+
+
+const UserModel = mongoose.model('User', UserSchema);
 
 module.exports = UserModel;

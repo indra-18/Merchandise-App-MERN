@@ -1,5 +1,6 @@
 const UserModel = require('../models/user.model');
 const bcrypt = require('bcrypt')
+require('dotenv').config()
 
 const userController = {};
 
@@ -22,6 +23,37 @@ userController.createUser = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+userController.signin = async (req, res) => {
+  try {
+    const user = await UserModel.findOne({email: req.body.email});
+    if (!user) {
+      res.status(401).json({error: 'User not found'})
+    }
+    else {
+      UserModel.comparePassword(req.body.password, user.password, function(err, isMatch) {
+        if (isMatch && !err) {
+          var token = jwt.sign(user.toJSON(), process.env.SECRET, {
+            expiresIn: 604800
+          })
+          res.status(200).json({token: 'JWT' + token});
+        }
+      })
+    }
+  } catch (error) {
+    res.status(401).json({error: err.message})
+  }
+}
+
+userController.getUserWithEmail = async (req, res) => {
+  try {
+    const { email } = req.body
+    const user = await UserModel.find({email})
+    return res.status(200).json({result: user})
+  } catch (error) {
+    res.status(500).json({error: err.message})
+  }
+} 
 
 userController.getAllUsers = async (req, res) => {
   try {
@@ -74,6 +106,10 @@ userController.updateUser = async (req, res) => {
 };
 
 userController.addToCart = async (req, res) => {
+  const token = getToken(req.headers)
+  if (!token) {
+    return res.status(403).send({error: error.message})
+  }
   const { userId } = req.params;
   const { productId, quantity } = req.body;
   if (!productId || !quantity) {
@@ -103,6 +139,10 @@ userController.addToCart = async (req, res) => {
 };
 
 userController.removeFromCart = async (req, res) => {
+    const token = getToken(req.headers)
+    if (!token) {
+      return res.status(403).send({error: error.message})
+    }
     const { userId } = req.params;
     const { productId } = req.body;
     if (!productId) {
@@ -122,4 +162,18 @@ userController.removeFromCart = async (req, res) => {
     }
   };
   
+const getToken = function (headers) {
+  if (headers && headers.authorization) {
+    var parted = headers.authorization.split(' ');
+    if (parted.length === 2) {
+      return parted[1]
+    }else {
+      return null;
+    }
+  }
+  else {
+    return null
+  }
+}
+
   module.exports = userController
