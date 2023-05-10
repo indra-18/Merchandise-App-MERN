@@ -15,9 +15,9 @@ export const newUser = createAsyncThunk('user/newUser', (formData) => {
             .then(res => res.data.result)
 })
 
-export const updateUser = createAsyncThunk('user/updateUser', () => {
+export const updateUser = createAsyncThunk('user/updateUser', (userId) => {
     return axios
-            .put('http://localhost:8080/users')
+            .put(`http://localhost:8080/users/${userId}`)
             .then(res => res.data.result)
 })
 
@@ -29,7 +29,7 @@ export const fetchUsers = createAsyncThunk('user/fetchUsers', () => {
 
 export const fetchUsersWithId = createAsyncThunk('user/fetchUsersWithId', (userId) => {
     return axios
-    .get(`http://localhost:8080/users/:${userId}`)
+    .get(`http://localhost:8080/users/${userId}`)
     .then(res => res.data.result)
 })
 

@@ -12,10 +12,11 @@ const LoginPage = () => {
     const [status, setStatus] = useState(false)
     const [error, setError] = useState(null)
     const user = useSelector(state => state.user);
-    // const {name, email, password} = user.user
+    const {name, email, password, _id} = user.user
     // if (!name || !email || !password) {
-    //     setError('Pleae Fill All Details')
+    //     setError('Please Fill All Details')
     // }
+    
     const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
