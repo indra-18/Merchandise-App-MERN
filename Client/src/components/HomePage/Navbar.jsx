@@ -33,11 +33,11 @@ const Navbar = () => {
             <Link to={'/cart'}>
               <div className="relative max-w-[40px]">
                 <img src={cart} alt="cart-icon" />
-                {userCart.length > 0 && (
+                {/* {userCart.length > 0 && (
                   <div className="absolute -top-2 -right-2 bg-fuchsia-700 w-6 h-6 rounded-full flex justify-center items-center text-white">
                     {userCart.length}
                   </div>
-                )}
+                )} */}
               </div>
             </Link>
             </li>

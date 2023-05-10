@@ -2,15 +2,25 @@
 import React, { useEffect, useState } from 'react'
 import { fetchProductWithId } from '../http-services/api'
 import { useParams } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { addToCart } from '../redux/features/userSlice'
 
 const Details = () => {
     const [product, setProduct] = useState({})
     const { id } = useParams()
+    const user = useSelector(state => state.user)
+    const { cart, _id } = user.user
+    const dispatch = useDispatch()
+    console.log(_id)
+    console.log(cart)
+
+    function addProduct() {
+        dispatch(addToCart({ userId: _id, cartItem: {productId: id, quantity: 1} }));
+
+    }
 
     useEffect(() => {
         try {       
-                // const id = props.location.state.id;
-
                 const tempFunc = async () => {
                 const result = await fetchProductWithId(id)
                 setProduct(result)
@@ -41,7 +51,12 @@ const Details = () => {
                        {product.price && <span className="font-bold text-5xl leading-none align-baseline">{product.price}</span>}
                     </div>
                     <div className="inline-block align-bottom">
-                        <button className="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-10 py-2 font-semibold"><i className="mdi mdi-cart -ml-2 mr-2"></i>Add To Cart</button>
+                        <button 
+                        className="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-10 py-2 font-semibold"
+                        onClick={addProduct}
+                        >
+                        <i className="mdi mdi-cart -ml-2 mr-2"
+                        ></i>Add To Cart</button>
                     </div>
                 </div>
             </div>

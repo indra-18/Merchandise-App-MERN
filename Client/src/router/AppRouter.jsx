@@ -5,13 +5,15 @@ import Shop from "../components/ShopPage/Shop";
 import Details from "../components/Details";
 import LoginPage from "../components/LoginPage/LoginPage";
 import Cart from "../components/Cart";
+import SignupPage from "../components/SignupPage/SignupPage";
 
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<SignupPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/home" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/details/:id" element={<Details />} />

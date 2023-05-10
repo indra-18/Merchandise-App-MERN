@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginUser } from '../../redux/features/userSlice';
-import { Navigate } from 'react-router-dom';
+import { newUser } from '../../redux/features/userSlice';
+import { Link, Navigate } from 'react-router-dom';
 
-const LoginPage = () => {
+
+const SignupPage = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -11,7 +12,6 @@ const LoginPage = () => {
     })
     const [status, setStatus] = useState(false)
     const user = useSelector(state => state.user);
-    console.log(user)
     // const [error, setError] = useState('')
     
     // const { name, email, password} = user.user
@@ -25,10 +25,10 @@ const LoginPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const status = await dispatch(loginUser(formData));
+            const status = await dispatch(newUser(formData));
             setStatus(status.payload)
         } catch (err) {
-          setError(err.message);
+          setError('This Email Is Already Registered, Please Try Login');
         }
       };
 
@@ -124,10 +124,10 @@ const LoginPage = () => {
               <button
                 type="submit"
                 className="flex mt-2 items-center justify-center focus:outline-none text-white 
-                text-sm sm:text-base bg-blue-500 hover:bg-blue-600 rounded-2xl py-2 w-full 
+                text-sm sm:text-base bg-green-400 hover:bg-green-600 rounded-2xl py-2 w-full 
                 transition duration-150 ease-in" 
               >
-                <span className="mr-2 uppercase">Sign In</span>
+                <span className="mr-2 uppercase">Sign Up</span>
                     <span>
                     <svg
                         className="h-6 w-6"
@@ -147,6 +147,7 @@ const LoginPage = () => {
                 </div>
             </form>
             {/* {error && <p>{error}</p>} */}
+            <p className='mt-4'>Already a Member? <Link to="/login" className=' text-blue-600 font-bold'>LogIn</Link></p>
             </div>
         </div>
         </div>
@@ -154,4 +155,4 @@ const LoginPage = () => {
   )
 }
 
-export default LoginPage
+export default SignupPage

@@ -1,6 +1,10 @@
 const UserModel = require('../models/user.model');
-const bcrypt = require('bcrypt')
 require('dotenv').config()
+const passport = require('passport');
+require('../config/passport')(passport);
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt')
+
 
 const userController = {};
 
@@ -18,32 +22,43 @@ userController.createUser = async (req, res) => {
       password: hashedPassword,
       cart: [],
     });
-    return res.status(201).json({ result: newUser });
+    var token = jwt.sign(newUser.toJSON(), process.env.SECRET, {
+      expiresIn: 604800
+    });
+    return res.status(201).json({ result: newUser, token: 'JWT' + token });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 };
 
-userController.signin = async (req, res) => {
+userController.login = async (req, res) => {
   try {
     const user = await UserModel.findOne({email: req.body.email});
+    console.log(user)
     if (!user) {
-      res.status(401).json({error: 'User not found'})
+      return res.status(401).json({error: 'User not found'})
     }
     else {
-      UserModel.comparePassword(req.body.password, user.password, function(err, isMatch) {
-        if (isMatch && !err) {
-          var token = jwt.sign(user.toJSON(), process.env.SECRET, {
-            expiresIn: 604800
-          })
-          res.status(200).json({token: 'JWT' + token});
-        }
-      })
+      const isMatch = await UserModel.comparePassword(req.body.password, user.password);
+      console.log(isMatch)
+      if (!isMatch) {
+        res.status(401).json({error: 'Wrong Password'})
+        console.log('wrong password')
+      }
+      if (isMatch) {
+        var token = jwt.sign(user.toJSON(), process.env.SECRET, {
+          expiresIn: 604800
+        })
+        console.log('jwt created')
+        res.status(200).json({result: user, token: 'JWT' + token});
+      }
     }
   } catch (error) {
-    res.status(401).json({error: err.message})
+    res.status(401).json({error: error.message})
   }
 }
+
+
 
 userController.getUserWithEmail = async (req, res) => {
   try {
@@ -51,7 +66,7 @@ userController.getUserWithEmail = async (req, res) => {
     const user = await UserModel.find({email})
     return res.status(200).json({result: user})
   } catch (error) {
-    res.status(500).json({error: err.message})
+    res.status(500).json({error: error.message})
   }
 } 
 
@@ -108,7 +123,7 @@ userController.updateUser = async (req, res) => {
 userController.addToCart = async (req, res) => {
   const token = getToken(req.headers)
   if (!token) {
-    return res.status(403).send({error: error.message})
+    return res.status(403).json({error: 'unauthorized'})
   }
   const { userId } = req.params;
   const { productId, quantity } = req.body;
@@ -141,7 +156,7 @@ userController.addToCart = async (req, res) => {
 userController.removeFromCart = async (req, res) => {
     const token = getToken(req.headers)
     if (!token) {
-      return res.status(403).send({error: error.message})
+      return res.status(403).json({error: 'unauthorized'})
     }
     const { userId } = req.params;
     const { productId } = req.body;
