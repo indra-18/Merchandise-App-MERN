@@ -121,10 +121,10 @@ userController.updateUser = async (req, res) => {
 };
 
 userController.addToCart = async (req, res) => {
-  const token = getToken(req.headers)
-  if (!token) {
-    return res.status(403).json({error: 'unauthorized'})
-  }
+  // const token = getToken(req.headers)
+  // if (!token) {
+  //   return res.status(403).json({error: 'unauthorized'})
+  // }
   const { userId } = req.params;
   const { productId, quantity } = req.body;
   if (!productId || !quantity) {
@@ -177,18 +177,19 @@ userController.removeFromCart = async (req, res) => {
     }
   };
   
-const getToken = function (headers) {
-  if (headers && headers.authorization) {
-    var parted = headers.authorization.split(' ');
-    if (parted.length === 2) {
-      return parted[1]
-    }else {
-      return null;
-    }
-  }
-  else {
-    return null
-  }
-}
+// const getToken = function (headers) {
+//   console.log('Hi')
+//   if (headers && headers.authorization) {
+//     var parted = headers.authorization.split(' ');
+//     if (parted.length === 2) {
+//       return parted[1]
+//     }else {
+//       return null;
+//     }
+//   }
+//   else {
+//     return null
+//   }
+// }
 
   module.exports = userController
