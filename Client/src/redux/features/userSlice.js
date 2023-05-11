@@ -82,6 +82,7 @@ const userSlice = createSlice({
             state.loading = false,
             state.user = action.payload.result
             state.jwt = action.payload.token
+            state.cart = action.payload.result.cart
             state.error = ''
         })
         builder.addCase(loginUser.rejected, (state, action) => {
@@ -111,7 +112,6 @@ const userSlice = createSlice({
         })
         builder.addCase(fetchUsers.rejected, (state, action) => {
             state.loading = false,
-            state.users = [],
             state.error = action.error.message
         })
         builder.addCase(fetchUsersWithId.pending, state => {
@@ -124,7 +124,6 @@ const userSlice = createSlice({
         })
         builder.addCase(fetchUsersWithId.rejected, (state, action) => {
             state.loading = false,
-            state.users = [],
             state.error = action.error.message
         })
         builder.addCase(addToCart.pending, state => {
@@ -137,7 +136,6 @@ const userSlice = createSlice({
         })
         builder.addCase(addToCart.rejected, (state, action) => {
             state.loading = false,
-            state.cart = [],
             state.error = action.error.message
         })
         builder.addCase(removeFromCart.pending, state => {
@@ -150,7 +148,6 @@ const userSlice = createSlice({
         })
         builder.addCase(removeFromCart.rejected, (state, action) => {
             state.loading = false,
-            state.cart = [],
             state.error = action.error.message
         })
     }

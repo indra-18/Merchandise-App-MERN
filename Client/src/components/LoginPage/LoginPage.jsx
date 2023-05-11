@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { loginUser } from '../../redux/features/userSlice';
 import { Navigate } from 'react-router-dom';
 
@@ -10,8 +10,6 @@ const LoginPage = () => {
         password: ''
     })
     const [status, setStatus] = useState(false)
-    const user = useSelector(state => state.user);
-    console.log(user)
     // const [error, setError] = useState('')
     
     // const { name, email, password} = user.user
@@ -28,7 +26,7 @@ const LoginPage = () => {
             const status = await dispatch(loginUser(formData));
             setStatus(status.payload)
         } catch (err) {
-          setError(err.message);
+          console.log(err.message);
         }
       };
 

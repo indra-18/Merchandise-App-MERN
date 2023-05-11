@@ -13,9 +13,9 @@ const Hero = () => {
       </div>
       <div className='flex justify-center items-center flex-wrap'>
         <h2 className=' font-extrabold text-5xl font-mono flex items-center ml-20 italic'>fly with fashion</h2>
-          <a href='/shop'>
+          <Link to='/shop'>
             <button className='mt-6 font-extrabold text-red-600 text-center bg-white rounded-md'>SHOP NOW</button>
-          </a>
+          </Link>
       </div>
     </section>
     </div>

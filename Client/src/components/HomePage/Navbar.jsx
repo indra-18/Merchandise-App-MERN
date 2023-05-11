@@ -8,19 +8,8 @@ import { fetchUsersWithId } from '../../redux/features/userSlice'
 
 const Navbar = () => {
   const loggedUser = useSelector(state => state.user)
-  const id = loggedUser.user._id
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    try {
-      dispatch(fetchUsersWithId(id))
-    } catch (error) {
-      console.log(error.message)
-    }
-  }, [id])
-  
-  const fetchedUser = useSelector(state => state.user)
-  const userCart = fetchedUser.user.cart
+  console.log(loggedUser)
+  const userCart = loggedUser.cart
 
   return (
     <nav className='w-full m-h-[20px] flex justify-between border-y-black'>
@@ -33,9 +22,11 @@ const Navbar = () => {
             <Link to={'/cart'}>
               <div className="relative max-w-[40px]">
                 <img src={cart} alt="cart-icon" />
-                  <div className="absolute -top-2 -right-1 bg-fuchsia-700 w-6 h-6 rounded-full flex justify-center items-center text-white">
+                {userCart && 
+                    <div className="absolute -top-2 -right-1 bg-fuchsia-700 w-6 h-6 rounded-full flex justify-center items-center text-white">
                     {userCart.length}
                   </div>
+                }
               </div>
             </Link>
             </li>
