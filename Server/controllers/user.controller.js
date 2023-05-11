@@ -34,24 +34,16 @@ userController.createUser = async (req, res) => {
 userController.login = async (req, res) => {
   try {
     const user = await UserModel.findOne({email: req.body.email});
-    console.log(user)
     if (!user) {
       return res.status(401).json({error: 'User not found'})
     }
     else {
-      const isMatch = await UserModel.comparePassword(req.body.password, user.password);
+      const isMatch = await bcrypt.compare(req.body.password, user.password)
       console.log(isMatch)
       if (!isMatch) {
-        res.status(401).json({error: 'Wrong Password'})
-        console.log('wrong password')
+        return res.status(401).json({error: 'Wrong Password'})
       }
-      if (isMatch) {
-        var token = jwt.sign(user.toJSON(), process.env.SECRET, {
-          expiresIn: 604800
-        })
-        console.log('jwt created')
-        res.status(200).json({result: user, token: 'JWT' + token});
-      }
+      return res.status(200).json({result: user});
     }
   } catch (error) {
     res.status(401).json({error: error.message})
