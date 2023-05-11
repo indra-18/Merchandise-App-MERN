@@ -40,13 +40,16 @@ export const fetchUsersWithId = createAsyncThunk('user/fetchUsersWithId', (userI
     .then(res => res.data.result)
 })
 
-export const addToCart = createAsyncThunk('user/addToCart', (data) => {
-    const { userId, cartItem } = data;
-    console.log(cartItem)
-    return axios
+export const addToCart = createAsyncThunk(
+    'user/addToCart',
+    async (data) => {
+      const { userId, cartItem } = data;
+      return axios
         .post(`http://localhost:8080/cart/${userId}`, cartItem)
-        .then(res => res.data.result)
-})
+        .then(res => res.data.result);
+    }
+  );
+  
 
 
 export const removeFromCart = createAsyncThunk('user/removeFromCart', (userId) => {

@@ -1,4 +1,3 @@
-// https://www.buymeacoffee.com/scottwindon
 import React, { useEffect, useState } from 'react'
 import { fetchProductWithId } from '../http-services/api'
 import { useParams } from 'react-router-dom'
@@ -9,15 +8,13 @@ const Details = () => {
     const [product, setProduct] = useState({})
     const { id } = useParams()
     const user = useSelector(state => state.user)
-    const { cart, _id } = user.user
+    const {_id} = user.user
     const dispatch = useDispatch()
-    console.log(_id)
-    console.log(cart)
 
     function addProduct() {
-        dispatch(addToCart({ userId: _id, cartItem: {productId: id, quantity: 1} }));
-
-    }
+        dispatch(addToCart({ userId: _id, cartItem: {productId: id, quantity: 1}}));
+      }
+      
 
     useEffect(() => {
         try {       

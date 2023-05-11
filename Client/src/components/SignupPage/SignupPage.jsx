@@ -11,7 +11,7 @@ const SignupPage = () => {
         password: ''
     })
     const [status, setStatus] = useState(false)
-    const user = useSelector(state => state.user);
+    // const user = useSelector(state => state.user);
     // const [error, setError] = useState('')
     
     // const { name, email, password} = user.user
