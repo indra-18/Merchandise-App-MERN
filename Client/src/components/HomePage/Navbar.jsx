@@ -3,12 +3,10 @@ import newLogo from '../../assets/newLogo.svg'
 import cart from '../../assets/cart.svg';
 import menuBar from '../../assets/menuBar.svg'
 import { Link } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { fetchUsersWithId } from '../../redux/features/userSlice'
+import { useSelector } from 'react-redux'
 
 const Navbar = () => {
   const loggedUser = useSelector(state => state.user)
-  console.log(loggedUser)
   const userCart = loggedUser.cart
 
   return (
