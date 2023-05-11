@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose')
-const cloudinary = require('cloudinary').v2
-const router = require('./routes/product.routes')
+const productsRouter = require('./routes/product.routes')
+const usersRouter = require('./routes/user.routes')
 
 
 app.use(bodyParser.json({limit: "30mb", extended: true}));
@@ -14,7 +14,8 @@ app.use(bodyParser.urlencoded({limit: "30mb", extended: true}));
 app.use(cors())
 const PORT = process.env.PORT || 5000
 
-app.use('/', router)
+app.use('/products', productsRouter)
+app.use('/', usersRouter)
 
 app.get('/', (req, res) => {
     res.send('Hello From Frenzy Backend Application')

@@ -35,7 +35,7 @@ exports.getAllProducts = async (req, res) => {
         const allProducts = await ProductModel.find();
         res.status(200).json({result: allProducts})
     } catch (error) {
-        res.status(500).send({error: err.message})
+        res.status(500).send({error: error.message})
     }
 }
 

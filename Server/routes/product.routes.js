@@ -1,6 +1,6 @@
 const router = require('express').Router();
 require('dotenv').config();
-const productController = require('../controllers/products.controller')
+const productController = require('../controllers/product.controller')
 const multer = require('multer')
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('cloudinary').v2
