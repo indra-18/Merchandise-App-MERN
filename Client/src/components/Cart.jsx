@@ -9,7 +9,7 @@ const Cart = () => {
 
   const updateProductQuantity = (id, quantity) => {
     const updatedProductsList = productsList.map((item) => {
-      if (item._id === id) {
+      if (item.id === id) {
         return { ...item, quantity };
       }
       return item;
@@ -18,13 +18,13 @@ const Cart = () => {
   };
 
   const incrementQuantity = (id) => {
-    const product = productsList.find(item => item._id === id);
+    const product = productsList.find(item => item.id === id);
     const newQuantity = product.quantity + 1;
     updateProductQuantity(id, newQuantity);
   };
 
   const decrementQuantity = (id) => {
-    const product = productsList.find(item => item._id === id);
+    const product = productsList.find(item => item.id === id);
     const newQuantity = Math.max(1, product.quantity - 1);
     updateProductQuantity(id, newQuantity);
   };
@@ -52,8 +52,8 @@ const Cart = () => {
 
         <ul>
           {productsList.map((product) => (
-            <li>
-              <div className="rounded-lg md:w-2/3">
+            <li key={product.id}>
+              <div className="rounded-lg md:w-full">
                 <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
                   <img
                     src={product.image}
@@ -71,7 +71,7 @@ const Cart = () => {
                       <div className="flex items-center border-gray-100">
                         <span 
                         className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"
-                        onClick={() => decrementQuantity(product._id)}
+                        onClick={() => decrementQuantity(product.id)}
                         >
                           {" "}
                           -{" "}
@@ -79,19 +79,19 @@ const Cart = () => {
                         <input
                           className="h-8 w-8 border bg-white text-center text-xs outline-none"
                           type="number"
-                          value={product.quantity}
+                          defaultValue={product.quantity}
                           min="1"
                         />
                         <span 
                         className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
-                        onClick={() => incrementQuantity(product._id)}
+                        onClick={() => incrementQuantity(product.id)}
                         >
                           {" "}
                           +{" "}
                         </span>
                       </div>
                       <div className="flex items-center space-x-4">
-                        <p className="text-sm">&#x20b9; {eval(product.price * product.quantity)}</p>
+                        <p className="text-sm font-bold">&#x20b9; {eval(product.price * product.quantity)}</p>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
