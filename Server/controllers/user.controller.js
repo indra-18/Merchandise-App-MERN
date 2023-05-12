@@ -145,7 +145,7 @@ userController.updateQuantity = async(req, res) => {
         item.quantity = quantity;
       }
     });
-    await user.save(); // Save changes to the database
+    await user.save();
     return res.status(200).json({result: user.cart});
   } catch (error) {
     return res.status(500).json({error: error.message});

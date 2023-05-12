@@ -1,33 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { fetchProductWithId } from "../http-services/api";
+import { updateQuantity } from "../redux/features/userSlice";
 
 const Cart = () => {
   const [productsList, setProductsList] = useState([])
   const getUser = useSelector((state) => state.user);
-  const { cart, user } = getUser;
-
-  const updateProductQuantity = (id, quantity) => {
-    const updatedProductsList = productsList.map((item) => {
-      if (item.id === id) {
-        return { ...item, quantity };
-      }
-      return item;
-    });
-    setProductsList(updatedProductsList);
-  };
-
-  const incrementQuantity = (id) => {
-    const product = productsList.find(item => item.id === id);
-    const newQuantity = product.quantity + 1;
-    updateProductQuantity(id, newQuantity);
-  };
-
-  const decrementQuantity = (id) => {
-    const product = productsList.find(item => item.id === id);
-    const newQuantity = Math.max(1, product.quantity - 1);
-    updateProductQuantity(id, newQuantity);
-  };
+  const { user } = getUser;
+  var cart = user?.cart
+  const dispatch = useDispatch()
+  console.log(cart)
+  // console.log(user)
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -42,7 +25,43 @@ const Cart = () => {
     fetchProducts();
   }, [cart]);
   
-  console.log(productsList)
+  // console.log(productsList)
+
+// const updateCart = (up) => {
+
+// }
+
+const updateProductQuantity = async (id, quantity) => {
+  const updatedCart = cart.map((item) => {
+    if (item.product === id) {
+      return { ...item, quantity };
+    }
+    return item;
+  });
+  console.log(updatedCart)
+  // dispatch(updateQuantity({ userId: user._id, cartItem: { productId: id, quantity } }));
+
+  const updatedProductIndex = updatedCart.findIndex(item => item.product === id);
+  const updatedProduct = await fetchProductWithId(id);
+  const updatedProductsList = [...productsList];
+  updatedProductsList[updatedProductIndex] = { ...updatedProduct, quantity };
+  setProductsList(updatedProductsList);
+};
+console.log(cart)
+
+  const incrementQuantity = (id) => {
+    const product = productsList.find(item => item.id === id);
+    const newQuantity = product.quantity + 1;
+    updateProductQuantity(id, newQuantity);
+  };
+
+  const decrementQuantity = (id) => {
+    const product = productsList.find(item => item.id === id);
+    const newQuantity = Math.max(1, product.quantity - 1);
+    updateProductQuantity(id, newQuantity);
+  };
+
+
 
   return (
     <div className="h-screen bg-gray-100 pt-20">
@@ -76,12 +95,10 @@ const Cart = () => {
                           {" "}
                           -{" "}
                         </span>
-                        <input
-                          className="h-8 w-8 border bg-white text-center text-xs outline-none"
-                          type="number"
-                          defaultValue={product.quantity}
-                          min="1"
-                        />
+                        <p
+                          className="h-8 w-8 border bg-white text-center text-xs outline-none py-1.5">
+                            {product.quantity}
+                          </p>
                         <span 
                         className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
                         onClick={() => incrementQuantity(product.id)}
@@ -91,7 +108,7 @@ const Cart = () => {
                         </span>
                       </div>
                       <div className="flex items-center space-x-4">
-                        <p className="text-sm font-bold">&#x20b9; {eval(product.price * product.quantity)}</p>
+                        <p className="text-sm font-bold">&#x20b9; {product.price * product.quantity}</p>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -119,18 +136,18 @@ const Cart = () => {
         <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
           <div className="mb-2 flex justify-between">
             <p className="text-gray-700">Subtotal</p>
-            <p className="text-gray-700">$129.99</p>
+            <p className="text-gray-700">&#x20b9;129.99</p>
           </div>
           <div className="flex justify-between">
             <p className="text-gray-700">Shipping</p>
-            <p className="text-gray-700">$4.99</p>
+            <p className="text-gray-700">&#x20b9;4.99</p>
           </div>
           <hr className="my-4" />
           <div className="flex justify-between">
             <p className="text-lg font-bold">Total</p>
             <div className="">
-              <p className="mb-1 text-lg font-bold">$134.98 USD</p>
-              <p className="text-sm text-gray-700">including VAT</p>
+              <p className="mb-1 text-lg font-bold">&#x20b9;134.98 INR</p>
+              <p className="text-sm text-gray-700">including GST</p>
             </div>
           </div>
           <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">
