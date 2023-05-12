@@ -50,18 +50,6 @@ userController.login = async (req, res) => {
   }
 }
 
-
-
-userController.getUserWithEmail = async (req, res) => {
-  try {
-    const { email } = req.body
-    const user = await UserModel.find({email})
-    return res.status(200).json({result: user})
-  } catch (error) {
-    res.status(500).json({error: error.message})
-  }
-} 
-
 userController.getAllUsers = async (req, res) => {
   try {
     const usersList = await UserModel.find()
@@ -131,19 +119,39 @@ userController.addToCart = async (req, res) => {
 
     const productIndex = user.cart.findIndex((item) => item.product.toString() === productId.toString());
     if (productIndex >= 0) {
-      // Product already exists in cart, update quantity
       user.cart[productIndex].quantity += quantity;
     } else {
-      // Product not in cart, add it
       user.cart.push({ product: productId, quantity });
     }
-
     await user.save();
     return res.status(200).json({ result: user.cart });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 };
+
+userController.updateQuantity = async(req, res) => {
+  const { userId } = req.params;
+  const { productId, quantity } = req.body;
+
+  if (!userId || !productId || !quantity) {
+    return res.status(400).json({error: 'Necessary details missing'})
+  }
+  try {
+    const user = await UserModel.findById(userId);
+    user.cart.forEach(item => {
+      if (item.product._id.toString() === productId) {
+        console.log(item.product._id)
+        item.quantity = quantity;
+      }
+    });
+    await user.save(); // Save changes to the database
+    return res.status(200).json({result: user.cart});
+  } catch (error) {
+    return res.status(500).json({error: error.message});
+  }
+}
+
 
 userController.removeFromCart = async (req, res) => {
     const token = getToken(req.headers)
