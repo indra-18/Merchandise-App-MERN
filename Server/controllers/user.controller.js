@@ -131,11 +131,6 @@ userController.addToCart = async (req, res) => {
 
 userController.updateQuantity = async(req, res) => {
   const { userId } = req.params;
-  // const { productId, quantity } = req.body;
-
-  // if (!userId || !productId || !quantity) {
-  //   return res.status(400).json({error: 'Necessary details missing'})
-  // }
   if (!req.body) return res.status(400).json({error: 'Necessary details missing'})
   try {
     let user = await UserModel.findById(userId);
