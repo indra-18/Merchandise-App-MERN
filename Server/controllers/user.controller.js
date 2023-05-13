@@ -39,7 +39,6 @@ userController.login = async (req, res) => {
     }
     else {
       const isMatch = await bcrypt.compare(req.body.password, user.password)
-      console.log(isMatch)
       if (!isMatch) {
         return res.status(401).json({error: 'Wrong Password'})
       }
@@ -132,19 +131,15 @@ userController.addToCart = async (req, res) => {
 
 userController.updateQuantity = async(req, res) => {
   const { userId } = req.params;
-  const { productId, quantity } = req.body;
+  // const { productId, quantity } = req.body;
 
-  if (!userId || !productId || !quantity) {
-    return res.status(400).json({error: 'Necessary details missing'})
-  }
+  // if (!userId || !productId || !quantity) {
+  //   return res.status(400).json({error: 'Necessary details missing'})
+  // }
+  if (!req.body) return res.status(400).json({error: 'Necessary details missing'})
   try {
-    const user = await UserModel.findById(userId);
-    user.cart.forEach(item => {
-      if (item.product._id.toString() === productId) {
-        console.log(item.product._id)
-        item.quantity = quantity;
-      }
-    });
+    let user = await UserModel.findById(userId);
+    user.cart = req.body;
     await user.save();
     return res.status(200).json({result: user.cart});
   } catch (error) {

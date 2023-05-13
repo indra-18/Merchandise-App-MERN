@@ -15,7 +15,7 @@ router.patch('/users/:userId', userController.updateUser)
 
 router.post('/cart/:userId', userController.addToCart)
 router.delete('/cart/:userId', userController.removeFromCart)
-router.patch('/cart/:userId', userController.updateQuantity)
+router.put('/cart/:userId', userController.updateQuantity)
 
 
 module.exports = router;

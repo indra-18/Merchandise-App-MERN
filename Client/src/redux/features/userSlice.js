@@ -51,9 +51,9 @@ export const addToCart = createAsyncThunk(
   );
 
   export const updateQuantity = createAsyncThunk('user/uupdateQuantity', async(data) => {
-    const {userId, cartItem} = data;
+    const {userId, updatedCart} = data;
     return axios
-            .post(`http://localhost:8080/cart/${userId}`, cartItem)
+            .put(`http://localhost:8080/cart/${userId}`, updatedCart)
             .then(res => res.data.result);
   })
   

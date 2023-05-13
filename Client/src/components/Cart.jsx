@@ -9,8 +9,6 @@ const Cart = () => {
   const { user } = getUser;
   var cart = user?.cart
   const dispatch = useDispatch()
-  console.log(cart)
-  // console.log(user)
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -24,12 +22,6 @@ const Cart = () => {
     };
     fetchProducts();
   }, [cart]);
-  
-  // console.log(productsList)
-
-// const updateCart = (up) => {
-
-// }
 
 const updateProductQuantity = async (id, quantity) => {
   const updatedCart = cart.map((item) => {
@@ -38,8 +30,7 @@ const updateProductQuantity = async (id, quantity) => {
     }
     return item;
   });
-  console.log(updatedCart)
-  // dispatch(updateQuantity({ userId: user._id, cartItem: { productId: id, quantity } }));
+  dispatch(updateQuantity({ userId: user._id, updatedCart }));
 
   const updatedProductIndex = updatedCart.findIndex(item => item.product === id);
   const updatedProduct = await fetchProductWithId(id);
@@ -47,7 +38,6 @@ const updateProductQuantity = async (id, quantity) => {
   updatedProductsList[updatedProductIndex] = { ...updatedProduct, quantity };
   setProductsList(updatedProductsList);
 };
-console.log(cart)
 
   const incrementQuantity = (id) => {
     const product = productsList.find(item => item.id === id);
@@ -61,7 +51,12 @@ console.log(cart)
     updateProductQuantity(id, newQuantity);
   };
 
-
+  const subTotal = productsList.reduce((total, product) => (
+    total + product.price * product.quantity
+  ), 0)
+  console.log(subTotal)
+  console.log(productsList)
+  const shipping = 50
 
   return (
     <div className="h-screen bg-gray-100 pt-20">
@@ -136,17 +131,17 @@ console.log(cart)
         <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
           <div className="mb-2 flex justify-between">
             <p className="text-gray-700">Subtotal</p>
-            <p className="text-gray-700">&#x20b9;129.99</p>
+            <p className="text-gray-700">&#x20b9;{subTotal}</p>
           </div>
           <div className="flex justify-between">
             <p className="text-gray-700">Shipping</p>
-            <p className="text-gray-700">&#x20b9;4.99</p>
+            <p className="text-gray-700">&#x20b9;{shipping}</p>
           </div>
           <hr className="my-4" />
           <div className="flex justify-between">
             <p className="text-lg font-bold">Total</p>
             <div className="">
-              <p className="mb-1 text-lg font-bold">&#x20b9;134.98 INR</p>
+              <p className="mb-1 text-lg font-bold">&#x20b9;{subTotal + shipping}</p>
               <p className="text-sm text-gray-700">including GST</p>
             </div>
           </div>
