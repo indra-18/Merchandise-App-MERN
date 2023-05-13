@@ -45,10 +45,17 @@ export const addToCart = createAsyncThunk(
     async (data) => {
       const { userId, cartItem } = data;
       return axios
-        .post(`http://localhost:8080/cart/${userId}`, cartItem)
-        .then(res => res.data.result);
+                .post(`http://localhost:8080/cart/${userId}`, cartItem)
+                .then(res => res.data.result);
     }
   );
+
+  export const updateQuantity = createAsyncThunk('user/uupdateQuantity', async(data) => {
+    const {userId, updatedCart} = data;
+    return axios
+            .put(`http://localhost:8080/cart/${userId}`, updatedCart)
+            .then(res => res.data.result);
+  })
   
 
 
@@ -75,6 +82,7 @@ const userSlice = createSlice({
             state.loading = false,
             state.error = action.error.message
         })
+
         builder.addCase(loginUser.pending, state => {
             state.loading = true
         })
@@ -89,6 +97,7 @@ const userSlice = createSlice({
             state.loading = false,
             state.error = action.error.message
         })
+
         builder.addCase(updateUser.pending, state => {
             state.loading = true
         })
@@ -114,6 +123,7 @@ const userSlice = createSlice({
             state.loading = false,
             state.error = action.error.message
         })
+
         builder.addCase(fetchUsersWithId.pending, state => {
             state.loading = true
         })
@@ -126,6 +136,7 @@ const userSlice = createSlice({
             state.loading = false,
             state.error = action.error.message
         })
+
         builder.addCase(addToCart.pending, state => {
             state.loading = true
         })
@@ -138,6 +149,20 @@ const userSlice = createSlice({
             state.loading = false,
             state.error = action.error.message
         })
+
+        builder.addCase(updateQuantity.pending, state => {
+            state.loading = true
+        })
+        builder.addCase(updateQuantity.fulfilled, (state, action) => {
+            state.loading = false,
+            state.cart = action.payload
+            state.error = ''
+        })
+        builder.addCase(updateQuantity.rejected, (state, action) => {
+            state.loading = false,
+            state.error = action.error.message
+        })
+
         builder.addCase(removeFromCart.pending, state => {
             state.loading = true
         })

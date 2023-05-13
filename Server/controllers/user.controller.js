@@ -39,7 +39,6 @@ userController.login = async (req, res) => {
     }
     else {
       const isMatch = await bcrypt.compare(req.body.password, user.password)
-      console.log(isMatch)
       if (!isMatch) {
         return res.status(401).json({error: 'Wrong Password'})
       }
@@ -49,18 +48,6 @@ userController.login = async (req, res) => {
     res.status(401).json({error: error.message})
   }
 }
-
-
-
-userController.getUserWithEmail = async (req, res) => {
-  try {
-    const { email } = req.body
-    const user = await UserModel.find({email})
-    return res.status(200).json({result: user})
-  } catch (error) {
-    res.status(500).json({error: error.message})
-  }
-} 
 
 userController.getAllUsers = async (req, res) => {
   try {
@@ -131,19 +118,30 @@ userController.addToCart = async (req, res) => {
 
     const productIndex = user.cart.findIndex((item) => item.product.toString() === productId.toString());
     if (productIndex >= 0) {
-      // Product already exists in cart, update quantity
       user.cart[productIndex].quantity += quantity;
     } else {
-      // Product not in cart, add it
       user.cart.push({ product: productId, quantity });
     }
-
     await user.save();
     return res.status(200).json({ result: user.cart });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 };
+
+userController.updateQuantity = async(req, res) => {
+  const { userId } = req.params;
+  if (!req.body) return res.status(400).json({error: 'Necessary details missing'})
+  try {
+    let user = await UserModel.findById(userId);
+    user.cart = req.body;
+    await user.save();
+    return res.status(200).json({result: user.cart});
+  } catch (error) {
+    return res.status(500).json({error: error.message});
+  }
+}
+
 
 userController.removeFromCart = async (req, res) => {
     const token = getToken(req.headers)
