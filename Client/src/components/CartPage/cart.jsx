@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProductWithId } from "../../http-services/api";
 import { updateQuantity } from "../../redux/features/userSlice";
-import CheckOut from "./CheckOut";
+import BillCard from "./BillCard";
 
 const Cart = () => {
+
   const [productsList, setProductsList] = useState([])
   const getUser = useSelector((state) => state.user);
   const { user } = getUser;
@@ -125,7 +126,7 @@ const updateProductQuantity = async (id, quantity) => {
             </li>
           ))}
         </ul>
-        <CheckOut shipping={shipping} subTotal={subTotal} />
+        <BillCard shipping={shipping} subTotal={subTotal} />
       </div>
     </div>
   );
