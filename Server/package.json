@@ -27,6 +27,7 @@
     "nodemon": "^2.0.22",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
+    "stripe": "^12.5.0",
     "uuidv4": "^6.2.13"
   }
 }
