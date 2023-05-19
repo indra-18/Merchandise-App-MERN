@@ -57,6 +57,11 @@ const updateProductQuantity = async (id, quantity) => {
     total + product.price * product.quantity
   ), 0)
   const shipping = 50
+  if (productsList.length < 1) {
+    return <div className="flex items-center justify-center">
+      <h1 className="font-bold text-3xl text-red-600">Temporary Note: Please Login Again To See Cart Items</h1>
+    </div>
+  }
 
   return (
     <div className="h-screen bg-gray-100 pt-20">
