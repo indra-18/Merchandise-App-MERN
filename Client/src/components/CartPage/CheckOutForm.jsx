@@ -5,7 +5,7 @@ import {
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
-// import './checkout.css'
+import './checkout.css'
 
 export default function CheckOutForm() {
 
@@ -82,7 +82,8 @@ export default function CheckOutForm() {
   };
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
+    <div id="payment-form-container">
+      <form id="payment-form" onSubmit={handleSubmit}>
       <LinkAuthenticationElement
         id="link-authentication-element"
         onChange={handleChangeEmail}
@@ -95,5 +96,7 @@ export default function CheckOutForm() {
       </button>
       {message && <div id="payment-message">{message}</div>}
     </form>
+    </div>
+    
   );
 }

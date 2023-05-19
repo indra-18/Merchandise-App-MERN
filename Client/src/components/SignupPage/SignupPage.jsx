@@ -33,9 +33,9 @@ const SignupPage = () => {
       };
 
   return (
-    <>
-    {status && <Navigate to="/home" />}
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+    <div className='flex justify-center items-center'>
+    {status && <Navigate to="/login" />}
+    <div className="min-h-screen flex flex-col items-center justify-center">
       <div className="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-3xl w-50 max-w-md">
         <div className="font-medium self-center text-xl sm:text-3xl text-gray-800">Welcome</div>
         <div className="mt-4 self-center text-xl sm:text-sm text-gray-800">Enter your credentials</div>
@@ -151,7 +151,7 @@ const SignupPage = () => {
             </div>
         </div>
         </div>
-    </>
+    </div>
   )
 }
 
