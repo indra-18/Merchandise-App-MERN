@@ -12,31 +12,31 @@ const initialState = {
 
 export const newUser = createAsyncThunk('user/newUser', (formData) => {
     return axios
-            .post('http://localhost:8080/users/signup', formData)
+            .post(`${import.meta.env.VITE_NODE_API}/users/signup`, formData)
             .then(res => res.data)
 })
 
 export const loginUser = createAsyncThunk('user/loginUser', (formData) => {
     return axios
-            .post('http://localhost:8080/users/login', formData)
+            .post(`${import.meta.env.VITE_NODE_API}/users/login`, formData)
             .then(res => res.data)
 })
 
 export const updateUser = createAsyncThunk('user/updateUser', (userId) => {
     return axios
-            .put(`http://localhost:8080/users/${userId}`)
+            .put(`${import.meta.env.VITE_NODE_API}/users/${userId}`)
             .then(res => res.data.result)
 })
 
 export const fetchUsers = createAsyncThunk('user/fetchUsers', () => {
     return axios
-            .get('http://localhost:8080/users')
+            .get(`${import.meta.env.VITE_NODE_API}/users`)
             .then(res => res.data.result)
 })
 
 export const fetchUsersWithId = createAsyncThunk('user/fetchUsersWithId', (userId) => {
     return axios
-    .get(`http://localhost:8080/users/${userId}`)
+    .get(`${import.meta.env.VITE_NODE_API}/users/${userId}`)
     .then(res => res.data.result)
 })
 
@@ -45,7 +45,7 @@ export const addToCart = createAsyncThunk(
     async (data) => {
       const { userId, cartItem } = data;
       return axios
-                .post(`http://localhost:8080/cart/${userId}`, cartItem)
+                .post(`${import.meta.env.VITE_NODE_API}/cart/${userId}`, cartItem)
                 .then(res => res.data.result);
     }
   );
@@ -53,7 +53,7 @@ export const addToCart = createAsyncThunk(
   export const updateQuantity = createAsyncThunk('user/uupdateQuantity', async(data) => {
     const {userId, updatedCart} = data;
     return axios
-            .put(`http://localhost:8080/cart/${userId}`, updatedCart)
+            .put(`${import.meta.env.VITE_NODE_API}/cart/${userId}`, updatedCart)
             .then(res => res.data.result);
   })
   
@@ -61,7 +61,7 @@ export const addToCart = createAsyncThunk(
 
 export const removeFromCart = createAsyncThunk('user/removeFromCart', (userId) => {
     return axios
-    .delete(`http://localhost:8080/cart/${userId}`)
+    .delete(`${import.meta.env.VITE_NODE_API}/cart/${userId}`)
     .then(res => res.data.result)
 })
 
