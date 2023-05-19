@@ -6,6 +6,7 @@ import Details from "../components/Details";
 import LoginPage from "../components/LoginPage/LoginPage";
 import Cart from '../components/CartPage/Cart'
 import SignupPage from "../components/SignupPage/SignupPage";
+import Payments from "../components/CartPage/Payments";
 
 
 const AppRouter = () => {
@@ -18,6 +19,7 @@ const AppRouter = () => {
         <Route path="/shop" element={<Shop />} />
         <Route path="/details/:id" element={<Details />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/payments" element={<Payments />} />
       </Routes>
     </BrowserRouter>
   );
