@@ -9,7 +9,7 @@ const initialState = {
 
 export const fetchProducts = createAsyncThunk('product/fetchProducts', () => {
     return axios
-            .get('http://localhost:8080/products')
+            .get(`${import.meta.env.VITE_NODE_API}/products`)
             .then(response => response.data.result)
 })
 

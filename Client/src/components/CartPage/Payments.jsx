@@ -12,7 +12,7 @@ const Payments = () => {
     const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
   
     useEffect(() => {
-      fetch("http://localhost:8080/create-payment-intent", {
+      fetch(`${import.meta.env.VITE_NODE_API}/create-payment-intent`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ totalPrice: total }),
